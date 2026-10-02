@@ -1,5 +1,10 @@
 # DimDim – CP5 (Web App + Banco em Nuvem)
 
+**Grupo:** DevAPG
+**Integrante:** Andrei de Paiva Gibbini — RM 563061
+**Repositório:** <https://github.com/Andrei-P-Gibbini/DevAPG-dimdim-cp5>
+**Swagger (nuvem):** <https://dimdim-cp5-api-devapg.azurewebsites.net/swagger>
+
 API REST em **.NET 8 (ASP.NET Core)** com **Entity Framework Core**, persistindo em **Azure SQL Database (PaaS)**,
 hospedada no **Azure App Service (Linux)** e monitorada com **Application Insights**.
 Todos os recursos e o deploy são feitos via **Azure CLI**.
@@ -40,8 +45,8 @@ docs/operacoes-json.md     -> JSON das operações GET, POST, PUT e DELETE
 1. Abra o Cloud Shell em <https://shell.azure.com> (Bash).
 2. Clone o repositório:
    ```bash
-   git clone <URL_DO_SEU_REPOSITORIO>
-   cd <NOME_DO_REPOSITORIO>
+   git clone https://github.com/Andrei-P-Gibbini/DevAPG-dimdim-cp5.git
+   cd DevAPG-dimdim-cp5
    ```
 3. Confirme a assinatura ativa:
    ```bash
@@ -49,10 +54,10 @@ docs/operacoes-json.md     -> JSON das operações GET, POST, PUT e DELETE
    ```
 4. Defina as variáveis (SUFFIX deixa os nomes únicos; use letras minúsculas e números):
    ```bash
-   export SUFFIX=rm12345
+   export SUFFIX=devapg
    export SQL_PASSWORD='DimDim@Cp5#2026'
-   # opcional, caso a região padrão (brazilsouth) esteja bloqueada na sua assinatura:
-   # export LOCATION=eastus2
+   export LOCATION=centralus
+   # Altere para a região permitida em sua conta do Portal Azure
    ```
 5. Execute o script:
    ```bash
@@ -61,7 +66,7 @@ docs/operacoes-json.md     -> JSON das operações GET, POST, PUT e DELETE
    O script executa, nesta ordem: resource group → SQL Server → regra de firewall → banco →
    **DDL das tabelas** → Log Analytics + **Application Insights** → App Service Plan → Web App →
    connection string e app settings → `dotnet publish` → zip deploy.
-6. Ao final, abra a URL exibida: `https://dimdim-cp5-api-<SUFFIX>.azurewebsites.net/swagger`
+6. Ao final, abra a URL exibida: `https://dimdim-cp5-api-devapg.azurewebsites.net/swagger`
 
 > Se o `sqlcmd` não existir no seu ambiente, o script pausa e pede para executar
 > `database/01_ddl.sql` no **Query editor** do banco (Portal Azure → SQL databases → dimdimdb → Query editor).
@@ -102,6 +107,6 @@ Exemplos de JSON: [`docs/operacoes-json.md`](docs/operacoes-json.md)
 
 ## Comandos úteis de diagnóstico
 ```bash
-az webapp log tail --resource-group rg-dimdim-cp5 --name dimdim-cp5-api-<SUFFIX>
-az webapp restart  --resource-group rg-dimdim-cp5 --name dimdim-cp5-api-<SUFFIX>
+az webapp log tail --resource-group rg-dimdim-cp5 --name dimdim-cp5-api-devapg
+az webapp restart  --resource-group rg-dimdim-cp5 --name dimdim-cp5-api-devapg
 ```
