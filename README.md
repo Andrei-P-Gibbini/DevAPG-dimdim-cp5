@@ -90,6 +90,7 @@ bash scripts/cleanup.sh
 | Transações | DELETE | `/api/transacoes/{id}` |
 
 Exemplos de JSON: [`docs/operacoes-json.md`](docs/operacoes-json.md)
+Roteiro e registro de testes do Swagger: [`docs/testes-swagger.md`](docs/testes-swagger.md)
 
 ## Roteiro da apresentação (evita perda de pontos)
 

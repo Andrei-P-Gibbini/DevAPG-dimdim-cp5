@@ -20,7 +20,11 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Transacao>(e =>
         {
-            e.ToTable("Transacoes");
+            e.ToTable("Transacoes", t =>
+            {
+                t.HasCheckConstraint("CK_Transacoes_Tipo", "[Tipo] IN ('DEPOSITO', 'SAQUE', 'PIX')");
+                t.HasCheckConstraint("CK_Transacoes_Valor", "[Valor] > 0");
+            });
             e.Property(x => x.Valor).HasPrecision(18, 2);
             e.HasOne(x => x.Cliente)
              .WithMany(c => c.Transacoes)

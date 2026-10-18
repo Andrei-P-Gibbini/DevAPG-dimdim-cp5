@@ -51,7 +51,11 @@ az sql db create \
 echo ">>> 4/8 Executando DDL das tabelas"
 if command -v sqlcmd >/dev/null 2>&1; then
   sqlcmd -S "${SQL_SERVER}.database.windows.net" -d "$SQL_DB" \
-    -U "$SQL_ADMIN" -P "$SQL_PASSWORD" -i ../database/01_ddl.sql
+    -U "$SQL_ADMIN" -P "$SQL_PASSWORD" -b -i ../database/01_ddl.sql
+  echo ">>> Conferindo tabelas criadas:"
+  sqlcmd -S "${SQL_SERVER}.database.windows.net" -d "$SQL_DB" \
+    -U "$SQL_ADMIN" -P "$SQL_PASSWORD" -b \
+    -Q "SELECT name FROM sys.tables WHERE name IN ('Clientes','Transacoes');"
 else
   echo "!! sqlcmd não encontrado. Execute database/01_ddl.sql pelo Portal:"
   echo "   SQL databases > $SQL_DB > Query editor (preview)"

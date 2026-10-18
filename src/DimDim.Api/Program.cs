@@ -17,6 +17,23 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Garante que as tabelas (Clientes e Transacoes) existam no Azure SQL.
+// Se o banco estiver vazio, cria o schema a partir do modelo (equivalente a database/01_ddl.sql).
+using (var scope = app.Services.CreateScope())
+{
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    try
+    {
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var criou = db.Database.EnsureCreated();
+        logger.LogInformation("Verificação do schema concluída. Tabelas criadas agora: {Criou}", criou);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Falha ao garantir o schema do banco. Verifique a connection string e o firewall do SQL.");
+    }
+}
+
 // Swagger habilitado em todos os ambientes para facilitar a demonstração em sala
 app.UseSwagger();
 app.UseSwaggerUI();
